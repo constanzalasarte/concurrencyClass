@@ -19,12 +19,15 @@ public class Matrix {
     public double sumParallel() {
         List<MathThread> mathThread = new ArrayList<>();
 
+        // se crean los threads, acá se podrían startear
         for (double[] value : values) {
-            mathThread.add(new MathThread(()->addRow(value)));
+            mathThread.add(new MathThread(() -> addRow(value)));
         }
 
+        // se startean todos
         mathThread.forEach(Thread::start);
 
+        // acá se calcula el valor
         mathThread.forEach(m -> {
             try {
                 m.join();
@@ -33,6 +36,7 @@ public class Matrix {
             }
         });
 
+        // acá se pasan todos los getValue a una colección y luego se suma
         return mathThread.stream().mapToDouble(MathThread::getValue).sum();
     }
 
@@ -48,6 +52,7 @@ public class Matrix {
         }
         return new Matrix(result);
     }
+
     public Matrix addParallel(Matrix other) {
         throw new RuntimeException("Implement me!");
     }

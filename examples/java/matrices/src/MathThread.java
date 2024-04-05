@@ -8,7 +8,11 @@ public class MathThread extends Thread {
         this.expression = expression;
     }
 
-    public void run() { result = expression.get(); }
+    public void run() {
+        result = expression.get();
+    }
 
-    public double getValue() { return result; }
+    public double getValue() {
+        return result;
+    }
 }
