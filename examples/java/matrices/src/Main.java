@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        Matrix m = create(10, 10_000);
+        Matrix m = create(10, 10_000_000);
 
         System.out.println("Sum = " + m.sum());
 

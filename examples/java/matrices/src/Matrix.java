@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Matrix {
     private final double[][] values;
 
@@ -14,7 +17,23 @@ public class Matrix {
     }
 
     public double sumParallel() {
-        throw new RuntimeException("Implement me!");
+        List<MathThread> mathThread = new ArrayList<>();
+
+        for (double[] value : values) {
+            mathThread.add(new MathThread(()->addRow(value)));
+        }
+
+        mathThread.forEach(Thread::start);
+
+        mathThread.forEach(m -> {
+            try {
+                m.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        return mathThread.stream().mapToDouble(MathThread::getValue).sum();
     }
 
     public Matrix addSerial(Matrix other) {
